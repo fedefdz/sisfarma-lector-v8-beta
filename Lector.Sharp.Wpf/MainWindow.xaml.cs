@@ -269,7 +269,7 @@ namespace Lector.Sharp.Wpf
 
                         //Si esta abierta la ventana de custom browser la cerramos
                         if (CustomBrowser.IsVisible)
-                            CloseWindowBrowser(CustomBrowser);
+                            CloseWindowBrowser(CustomBrowser, _service.CachingNavegationCustom);
 
                         // Abrimos una ventana con la web personalizada.
                         OpenWindowBrowser(CustomBrowserR, _service.UrlRecomendaciones, InfoBrowser);
@@ -278,7 +278,7 @@ namespace Lector.Sharp.Wpf
                     else if (_listener.IsHardwareKeyDown(LowLevelKeyboardListener.VirtualKeyStates.VK_SHIFT) && e.KeyPressed == Key.F2)
                     {
                         // Cerramos la ventana con la web personalizada
-                        CloseWindowBrowser(CustomBrowser);
+                        CloseWindowBrowser(CustomBrowser, _service.CachingNavegationCustom);
                         CloseWindowBrowser(CustomBrowserR);
                     }
 
@@ -536,6 +536,18 @@ namespace Lector.Sharp.Wpf
         }
 
         /// <summary>
+        /// Cierra una ventana que contiene un browser permitiendo cachear la url o no
+        /// </summary>
+        /// <param name="browser"></param>
+        private void CloseWindowBrowser(BrowserWindow browser, bool cachingUrl)
+        {
+            if (!cachingUrl)
+                browser.Browser.Navigate("about:blank");
+
+            browser.Hide();
+        }
+
+        /// <summary>
         /// Abre una ventana que contiene un browser
         /// </summary>
         /// <param name="browser">Ventana con un browser</param>
@@ -628,7 +640,7 @@ namespace Lector.Sharp.Wpf
                 }
                 else if ((int)msg.wParam == kbShiftF2)
                 {
-                    CloseWindowBrowser(CustomBrowser);
+                    CloseWindowBrowser(CustomBrowser, _service.CachingNavegationCustom);
                 }
             }
         }

@@ -13,6 +13,7 @@ namespace Lector.Sharp.Wpf.Services
         public string Url { get; set; }
         public string Mostrador { get; set; }
         public string UrlNavegarCustom { get; set; }
+        public bool CachingNavegationCustom { get; set; }
         public string UrlGlobal { get; set; }
         public string UrlRecomendaciones { get; set; }
         public string UrlMensajes { get; set; }
@@ -33,10 +34,15 @@ namespace Lector.Sharp.Wpf.Services
                 var pathMostradorVc = ConfigurationManager.AppSettings["Mostrador.Vc"];
                 //var pathDatabaseServer = ConfigurationManager.AppSettings["Database.Server"];
                 var pathDatabseCatalog = ConfigurationManager.AppSettings["Database.Catalog"];
-                                
+
                 //Url = new StreamReader(pathUrlInformacionRemoto).ReadLine();
                 //UrlMensajes = new StreamReader(pathUrlMensajesRemoto).ReadLine();
-                UrlNavegarCustom = new StreamReader(pathUrlCustom).ReadLine();
+                
+                var reader = new StreamReader(pathUrlCustom);
+                UrlNavegarCustom = reader.ReadLine(); // 1ra linea
+                var refreashNavegarCustomParam = reader.ReadLine(); // 2da linea;
+                CachingNavegationCustom = !bool.TryParse(refreashNavegarCustomParam, out var refresh) || !refresh;
+
 
                 if (UrlNavegarCustom.IndexOf("cm/") > 0)
                 {
