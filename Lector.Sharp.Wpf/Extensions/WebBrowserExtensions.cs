@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows.Controls;
 
 namespace Lector.Sharp.Wpf.Extensions
@@ -14,6 +15,19 @@ namespace Lector.Sharp.Wpf.Extensions
             if (objComWebBrowser == null)
                 return;
             objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { hide });            
+        }
+
+        public static bool TryInvokeScript(this WebBrowser webBrowser, string scriptName)
+        {
+            try
+            {
+                webBrowser.InvokeScript(scriptName);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

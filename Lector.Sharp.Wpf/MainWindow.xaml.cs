@@ -544,6 +544,7 @@ namespace Lector.Sharp.Wpf
             if (!cachingUrl)
                 browser.Browser.Navigate("about:blank");
 
+            browser.Browser.TryInvokeScript("pause");
             browser.Hide();
         }
 
@@ -556,9 +557,13 @@ namespace Lector.Sharp.Wpf
             hidden.Topmost = false;
             browser.Topmost = true;
             hidden.Topmost = true;
-            browser.Browser.Navigate(url);
+
+            //if (browser.Browser.Source == null || browser.Browser.Source.ToString() != new Uri(url).ToString())
+                browser.Browser.Navigate(url);
+
             browser.Visibility = Visibility.Visible;
             browser.WindowState = WindowState.Maximized;
+            browser.Browser.TryInvokeScript("play");
             browser.Show();
             browser.Activate();
         }
