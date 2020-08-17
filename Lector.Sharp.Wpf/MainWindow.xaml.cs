@@ -558,7 +558,7 @@ namespace Lector.Sharp.Wpf
             browser.Topmost = true;
             hidden.Topmost = true;
 
-            //if (browser.Browser.Source == null || browser.Browser.Source.ToString() != new Uri(url).ToString())
+            if (browser.Browser.Source == null || browser.Browser.Source.ToString() != new Uri(url).ToString())
                 browser.Browser.Navigate(url);
 
             browser.Visibility = Visibility.Visible;
